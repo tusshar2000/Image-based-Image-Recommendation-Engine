@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></head>
+    <body style="background-color:#bbf2fa;">
+        <div class="container" style="text-align: center">
+            <h1 style="text-align:center">Image Based Image Recommendation Engine</h1>
+            <h2 style="text-align:center">Query:</h2>
+            <div align="center">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="query_img" style="margin-left:145px ; display:block;"/>
+                <input type="submit" style="margin-top:20px ;">
+            </form>
+            </div>
+            
+            {% if query_path %}
+            <img src="{{ query_path }}" width="300px" style="margin-top:20px ;">
+            {% endif %}
+            <h2 style="text-align:center">Recommendations:</h2>
+            {% for image in result_images %}
+            
+                <img src="{{ image }}" height="300px" width="300px" style="margin-left:50px ;">
+                
+            
+            {% endfor %}
+        </div>
+    </body>
+</html>
+
+

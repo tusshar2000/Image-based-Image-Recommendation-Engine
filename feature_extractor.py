@@ -1,0 +1,49 @@
+from keras.preprocessing import image
+from keras.applications.mobilenet import MobileNet, preprocess_input
+from keras.models import Model
+import numpy as np
+from keras.layers import Dense, GlobalAveragePooling2D
+
+
+
+class FeatureExtractor:
+    def __init__(self):	
+        # include_top --> whether to include the fully-connected layer at the top of the network.
+        res_conv =  MobileNet(weights='imagenet',include_top=False)
+        
+	    #global spatial average pooling layer
+        x = res_conv.output 
+        x = GlobalAveragePooling2D()(x)
+
+	    #fully-connected layer
+        x = Dense(256, activation='relu')(x)
+	
+
+        predictions = Dense(5, activation='softmax')(x) 
+
+        # this is the model we will train
+        self.model = Model(inputs=res_conv.input, outputs=predictions)
+
+        #self.model.load_weights("weights.h5") 
+        self.model.load_weights("best.h5")
+        for idx,layer in enumerate(self.model.layers):
+             print(idx,layer.name)
+        #Here I want the output of the last layer of MobileNet and not my trained model
+        #because I don't 
+        self.model = Model(inputs=res_conv.input, outputs=self.model.get_layer('dense').output)
+        #self.model._make_predict_function()
+
+        
+    def extract(self, img): 
+        img = img.resize((224, 224))  # must take a 224x224 img as an input
+        img = img.convert('RGB')  # Make sure img is color
+        x = image.img_to_array(img)  # To np.array. Height x Width x Channel. dtype=float32
+        x = np.expand_dims(x, axis=0)  # (H, W, C)->(1, H, W, C), where the first elem is the number of img
+        x = preprocess_input(x)  # Subtracting avg values for each pixel
+        #print(x)
+        feature = self.model.predict(x).flatten() # (1, 4096) -> (4096, )
+        #print(len(feature), feature / np.linalg.norm(feature))
+        return feature / np.linalg.norm(feature)  # Normalize
+	
+
+
