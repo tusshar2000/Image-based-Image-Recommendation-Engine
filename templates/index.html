@@ -1,29 +1,221 @@
-<!doctype html>
 <html>
-    <head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></head>
-    <body style="background-color:#bbf2fa;">
-        <div class="container" style="text-align: center">
-            <h1 style="text-align:center">Image Based Image Recommendation Engine</h1>
-            <h2 style="text-align:center">Query:</h2>
-            <div align="center">
-            <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="query_img" style="margin-left:145px ; display:block;"/>
-                <input type="submit" style="margin-top:20px ;">
-            </form>
-            </div>
+    <link rel="preconnect" href="https://fonts.gstatic.com">    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+
+    <title>Image Based Image Reccomendation Engine</title>
+    <style>
+        body{
+            background-color:#C9C7FF ;
+            scroll-behavior: smooth;
+            transition-duration: 1.2s;
+        }
+        #li1{
+            display: inline;
+            font-family: 'Source Serif Pro', serif;
+            font-size:6vh;
+            padding: 2vw;
+            text-shadow:  #2c2c2c 0px 0px 2px;
+            margin-top: 2vh;
+
+        }
+        #li2,#li3{
+            display: inline;
+            font-family: 'Source Serif Pro', serif;
+            font-size:2.5vh;
+            margin-left: 8vw;
+            text-shadow:  #2c2c2c 0px 0px 2px;
+            cursor: pointer;
+        }
+        #li3{
+             padding-left: 2vw;
+        }
+        img{
+                cursor: pointer;
+            }
+        #homepgimg{
+                float:right;
+                padding: 14vh;
+                margin-top: 25vh;
+                width:40vw;
+                height: 40vh;
+                cursor:auto;
+        }
+        #homepgtext{
+            float: left;
+            margin-top: 40vh;
+            font-size: 3.5vh;
+            padding-left: 8vw;
+            font-family: 'Inter', sans-serif;
+            text-shadow:  #2c2c2c 0px 0px 2px;
+        }
+        #gotosearchdiv{
+            float: left;
+            margin-top: 44vh;
+            margin-left: 2vw;
+            background-color: #FF6584;
+            border-radius: 1vh;
+            padding-left: 1.4vw;
+            padding-right: 1.4vw;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            font-size: 2vh;
+            text-decoration: none;
+            color:#2c2c2c;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight:800;
+            box-shadow: #2c2c2c 0px 0px 8px;
+
+            cursor: pointer;
+        }
+        #introdiv{
+        width:100%;
+        display:block;
+        height:100vh;
+        }
+        #searchdiv{
+        
+        width:100%;
+        height:100vh;
+        display:block;
+        scroll-behavior: smooth;
+        transition: 1.2s;
+        }
+        #selectfilebtn{
+            margin-top: 2vh;
+            margin-left: 8vw;
+            background-color: #2c2c2c;
+            border-radius: 1vh;
+            padding-left: 1.4vw;
+            padding-right: 1.4vw;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            font-size: 2vh;
+            color:#C9C7FF;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            box-shadow: #2c2c2c 0px 0px 8px;
+            text-shadow:  #2c2c2c 0px 0px 4px;
+            cursor: pointer;
+            }
+            #submitbtn{
+            cursor: pointer;
+            margin-top: 2vh;
+            margin-left: 8vw;
+            background-color: #4eeea3;
+            border-radius: 1vh;
+            padding-left: 1.4vw;
+            padding-right: 1.4vw;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            font-size: 2vh;
+            font-weight: 900;
+            color:black;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            box-shadow: #2c2c2c 0px 0px 8px;
+   
+            }
+            h{
+            display: block;
+            font-family: 'Source Serif Pro', serif;
+            font-size:2.5vh;
+            font-weight: bold;
+            padding-left: 8vw;
+            text-shadow:  #2c2c2c 0px 0px 2px; 
+            }
+            #inputimgpreview,#outputimgpreview{
+                border-radius: 0.8vh;
+                box-shadow: #2c2c2c 0px 0px 8px;
+                margin: 2vh;
+                width: 300px;
+                height: 300px;
+            }
             
-            {% if query_path %}
-            <img src="{{ query_path }}" width="300px" style="margin-top:20px ;">
-            {% endif %}
-            <h2 style="text-align:center">Recommendations:</h2>
-            {% for image in result_images %}
-            
-                <img src="{{ image }}" height="300px" width="300px" style="margin-left:50px ;">
-                
-            
-            {% endfor %}
-        </div>
-    </body>
+            #helpicon{
+                font-family: 'Inter', sans-serif;
+                font-size: 3.5vh;
+                font-weight: regular;
+                display: inline;
+                margin-left: 2vw; 
+                cursor: pointer;
+                text-shadow: #2c2c2c 0px 0px 4px;
+            }
+
+body::-webkit-scrollbar {
+  width: 1.8vh;  
+       /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #C9C7FF;          /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #6C63FF;    /* color of the scroll thumb */
+  border-radius: 1vh;  
+  box-shadow: #2c2c2c 0px 0px 8px;
+  
+       /* roundness of the scroll thumb */
+  /* creates padding around scroll thumb */
+}
+
+
+</style>
+<head>
+    
+<script>
+
+ showabout=()=>
+{
+    alert("ABOUT\n\nDeveloped By :\n1. Tusshar.S.Laddha\n2. Swapnil.S.Baraskar\n\nBECMPN-2, Atharva College Of Engineering")
+}
+        
+  showhelp=()=>
+ {
+alert("How to Upload Image:\n\n1. Scroll Down & Click on Choose File OR Click Search Button\n2. Then Choose a Image File & Click Open/Select\n3. Your Image will be visible below Submit Button\n4. Now Click Submit \n WARNING : File Format Supported : JPG PNG BMP, other formats will give an error !")
+}
+        
+</script>
+</head>
+<body>
+<div id="introdiv">
+    <br>
+
+    <li id="li1">Image Based Image Recommendation Engine </li>
+    <li id="li2" onclick="showabout()">About</li>
+    <li id="li3" onclick="showhelp()">Help</li>
+    <br>
+        <p id="homepgtext"> Search with images & <br>Get accurate image results ! </p>
+        <a id="gotosearchdiv" href="#searchdiv">Search</a>
+        <img id="homepgimg" src="{{ url_for('static', filename='homepgimg.svg') }}" >
+        
+ </div>
+ <br><br>
+
+
+<div id="searchdiv">
+<center>
+		<form method="POST" enctype="multipart/form-data">
+
+			<input id="selectfilebtn" type="file" name="query_img"/>
+            <p id="helpicon" onclick="showhelp()">&#63;</p>
+			<input id="submitbtn" type="submit">
+		</form>
+
+        {% if query_path %}
+            <img id="inputimgpreview" src="{{ query_path }}">
+        {% endif %}
+</center>
+
+            <br><h>Recommendations : </h><br>
+<center>      
+    {% for image in result_images %}
+        <img id="outputimgpreview"src="{{ image }}">
+    {% endfor %}
+</center>
+</div>
+
+</body>
 </html>
-
-
